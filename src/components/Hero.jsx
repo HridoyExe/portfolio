@@ -115,7 +115,7 @@ const Hero = () => {
             </motion.h1>
             
             <motion.p variants={itemVariants} className="text-slate-400 text-sm md:text-lg max-w-2xl mb-6 lg:mb-10 leading-relaxed mx-auto lg:mx-0 font-light px-4 lg:px-0">
-              Senior-focused <span className="text-white font-medium">Backend Engineer</span> & Full-Stack Architect specialized in high-performance Django ecosystems and React interfaces.
+              Aspiring <span className="text-white font-medium">Junior Backend Developer</span> & Full-Stack Engineer specialized in high-performance Django ecosystems and React interfaces.
             </motion.p>
 
             <motion.div variants={itemVariants} className="flex flex-col sm:flex-row items-center gap-4 md:gap-6 justify-center lg:justify-start px-6 sm:px-0">

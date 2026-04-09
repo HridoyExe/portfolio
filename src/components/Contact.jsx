@@ -81,7 +81,7 @@ const Contact = () => {
           <span className="section-subtitle">Collaborative Engineering</span>
           <h2 className="section-title">Let's Build the <span className="text-gradient">Future</span></h2>
           <p className="text-slate-400 max-w-2xl mx-auto text-lg md:text-xl font-light leading-relaxed">
-            I'm currently available for senior-level backend roles and high-impact full-stack collaborations.
+            I'm currently available for junior-level backend roles and high-impact full-stack collaborations.
           </p>
         </motion.div>
 
