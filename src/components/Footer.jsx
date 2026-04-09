@@ -68,7 +68,7 @@ const Footer = () => {
             <ul className="space-y-6">
               <li className="flex flex-col">
                 <span className="text-slate-600 text-[10px] font-black uppercase tracking-widest mb-1">Location</span>
-                <span className="text-slate-400 text-lg font-light">Jashore, Bangladesh</span>
+                <span className="text-slate-400 text-lg font-light">Tetulia, Panchagarh</span>
               </li>
               <li className="flex flex-col">
                 <span className="text-slate-600 text-[10px] font-black uppercase tracking-widest mb-1">Email</span>

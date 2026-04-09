@@ -19,7 +19,7 @@ const stats = [
     color: 'from-blue-600 to-indigo-600',
   },
   {
-    label: 'Problem Solving',
+    label: 'Problem Solved',
     value: 170,
     suffix: '+',
     icon: HiStar,
@@ -55,16 +55,16 @@ const Stats = () => {
               <div className="premium-card p-8 rounded-[2.5rem] flex flex-col items-center text-center relative overflow-hidden h-full">
                 {/* Background Glow */}
                 <div className={`absolute inset-0 bg-gradient-to-br ${stat.color} opacity-0 group-hover:opacity-5 transition-opacity duration-700`} />
-                
+
                 <div className={`w-16 h-16 rounded-2xl bg-gradient-to-br ${stat.color} flex items-center justify-center text-slate-950 mb-6 shadow-lg shadow-cyan-500/10 transition-transform duration-500 group-hover:rotate-6`}>
                   <stat.icon size={28} />
                 </div>
-                
+
                 <h3 className="text-4xl md:text-5xl font-extrabold text-white mb-2 font-display">
                   <CountUpComponent end={stat.value} duration={3} enableScrollSpy scrollSpyOnce />
                   <span className="text-cyan-500">{stat.suffix}</span>
                 </h3>
-                
+
                 <p className="text-slate-500 text-[10px] font-black uppercase tracking-[0.2em] font-mono">
                   {stat.label}
                 </p>
