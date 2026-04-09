@@ -126,8 +126,8 @@ const Contact = () => {
 
                 <div className="flex flex-wrap gap-3 mt-10 filter grayscale group-hover:grayscale-0 transition-all duration-700">
                   <SocialIcon Icon={FaGithub} link="https://github.com/HridoyExe" />
-                  <SocialIcon Icon={FaLinkedin} link="https://www.linkedin.com/in/mdformanali/" />
-                  <SocialIcon Icon={FaFacebook} link="https://www.facebook.com/MdFormanAliHridoy" />
+                  <SocialIcon Icon={FaLinkedin} link="https://www.linkedin.com/in/forman-ali-hridoy-197973401/" />
+                  <SocialIcon Icon={FaFacebook} link="https://www.facebook.com/fardin.hridoy18/" />
                 </div>
               </div>
 
