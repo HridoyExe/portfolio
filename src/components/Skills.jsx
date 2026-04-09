@@ -186,7 +186,7 @@ const Skills = () => {
           viewport={{ once: true }}
           className="mt-32 max-w-5xl mx-auto"
         >
-          <div className="premium-card p-12 md:p-16 rounded-[4rem] flex flex-col lg:flex-row items-center gap-12 overflow-hidden relative group">
+          <div className="premium-card p-8 md:p-16 rounded-[2.5rem] md:rounded-[4rem] flex flex-col lg:flex-row items-center gap-12 overflow-hidden relative group">
             <div className="absolute top-0 right-0 w-64 h-64 bg-cyan-500/10 blur-[80px] rounded-full -translate-y-1/2 translate-x-1/2"></div>
 
             <div className="w-24 h-24 rounded-[2rem] bg-linear-to-tr from-cyan-500 to-blue-600 flex items-center justify-center shadow-2xl shadow-cyan-500/30 shrink-0 group-hover:rotate-12 transition-transform duration-700">

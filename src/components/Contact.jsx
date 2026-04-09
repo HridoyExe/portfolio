@@ -91,7 +91,7 @@ const Contact = () => {
           <SectionReveal delay={0.2}>
             <div className="space-y-8 h-full">
               {/* Profile Card */}
-              <div className="premium-card p-10 rounded-[3rem] border-white/5 relative overflow-hidden group">
+              <div className="premium-card p-6 md:p-10 rounded-[2rem] md:rounded-[3rem] border-white/5 relative overflow-hidden group">
                 <div className="absolute top-0 right-0 w-32 h-32 bg-cyan-500/10 blur-3xl rounded-full"></div>
                 <div className="flex items-center gap-6 mb-10">
                   <div className="w-20 h-20 rounded-2xl bg-slate-900 border border-white/10 overflow-hidden group-hover:scale-105 transition-transform duration-500">
@@ -132,7 +132,7 @@ const Contact = () => {
               </div>
 
               {/* Instant Connect Card */}
-              <div className="premium-card p-10 rounded-[3rem] border-white/5 bg-linear-to-br from-cyan-500/5 to-transparent">
+              <div className="premium-card p-6 md:p-10 rounded-[2rem] md:rounded-[3rem] border-white/5 bg-linear-to-br from-cyan-500/5 to-transparent">
                 <div className="flex items-center gap-4 mb-6">
                   <div className="w-12 h-12 rounded-2xl bg-cyan-500 flex items-center justify-center text-slate-950 shadow-lg shadow-cyan-500/20">
                     <FaWhatsapp size={24} />
@@ -157,7 +157,7 @@ const Contact = () => {
           {/* Right Column: Form */}
           <SectionReveal delay={0.4}>
             <div className="lg:col-span-2 h-full">
-              <div className="premium-card p-10 lg:p-16 rounded-[4rem] border-white/5 shadow-2xl relative overflow-hidden h-full">
+              <div className="premium-card p-6 md:p-10 lg:p-16 rounded-[2rem] md:rounded-[4rem] border-white/5 shadow-2xl relative overflow-hidden h-full">
                 <div className="relative z-10">
                   <div className="mb-12">
                     <h3 className="text-3xl font-extrabold text-white mb-4 font-display">Initialize Conversation</h3>

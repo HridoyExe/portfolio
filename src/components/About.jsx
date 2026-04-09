@@ -102,9 +102,9 @@ const About = () => {
             {/* Right Column: Timeline & Cards */}
             <div className="lg:col-span-5 space-y-10">
               <SectionReveal delay={0.4}>
-                <motion.div variants={revealVariants} className="premium-card p-10 rounded-[3rem] border-white/5 relative group overflow-hidden">
+                <motion.div variants={revealVariants} className="premium-card p-6 md:p-10 rounded-[2rem] md:rounded-[3rem] border-white/5 relative group overflow-hidden">
                   <div className="absolute top-0 right-0 w-32 h-32 bg-cyan-500/10 blur-3xl rounded-full"></div>
-                  <h3 className="text-2xl font-extrabold text-white mb-8 font-display flex items-center gap-3">
+                  <h3 className="text-xl md:text-2xl font-extrabold text-white mb-8 font-display flex items-center gap-3">
                     <HiLightningBolt size={24} className="text-cyan-400" />
                     Core Expertise
                   </h3>
@@ -117,17 +117,17 @@ const About = () => {
                       <motion.div 
                         key={i} 
                         whileHover={{ x: 5 }}
-                        className="flex justify-between items-center border-b border-white/5 pb-4 group/item cursor-default"
+                        className="flex flex-col sm:flex-row sm:justify-between sm:items-center border-b border-white/5 pb-4 gap-2 sm:gap-0 group/item cursor-default"
                       >
                         <span className="text-slate-500 font-black text-[10px] tracking-widest uppercase">{item.label}</span>
-                        <span className="text-white font-bold text-sm font-display group-hover/item:text-cyan-400 transition-colors">{item.value}</span>
+                        <span className="text-white font-bold text-sm md:text-base font-display group-hover/item:text-cyan-400 transition-colors text-left sm:text-right">{item.value}</span>
                       </motion.div>
                     ))}
                   </div>
                 </motion.div>
 
-                <motion.div variants={revealVariants} className="premium-card p-10 rounded-[3rem] border-white/5 relative mt-10">
-                  <h3 className="text-2xl font-extrabold text-white mb-10 font-display italic">Evolution</h3>
+                <motion.div variants={revealVariants} className="premium-card p-6 md:p-10 rounded-[2rem] md:rounded-[3rem] border-white/5 relative mt-10">
+                  <h3 className="text-xl md:text-2xl font-extrabold text-white mb-10 font-display italic">Evolution</h3>
                   <div className="space-y-12">
                     <div className="relative pl-12">
                       {/* Animated Vertical Line */}
