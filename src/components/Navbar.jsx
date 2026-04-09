@@ -106,7 +106,7 @@ const Navbar = () => {
               initial={{ opacity: 0, x: 100 }}
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: 100 }}
-              className="fixed inset-0 top-0 bg-slate-950 z-[-1] flex flex-col pt-32 px-6"
+              className="fixed inset-0 top-0 bg-slate-950/95 backdrop-blur-3xl z-[-1] flex flex-col pt-32 px-6"
             >
               <div className="space-y-6">
                 {navLinks.map((link, i) => (

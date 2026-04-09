@@ -2,8 +2,23 @@ import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { HiX, HiExternalLink } from 'react-icons/hi';
 import { FaGithub } from 'react-icons/fa';
+import { useEffect } from 'react';
 
 const ProjectModal = ({ project, isOpen, onClose }) => {
+  useEffect(() => {
+    if (isOpen) {
+      window.lenis?.stop();
+      document.body.style.overflow = 'hidden';
+    } else {
+      window.lenis?.start();
+      document.body.style.overflow = '';
+    }
+    return () => {
+      window.lenis?.start();
+      document.body.style.overflow = '';
+    };
+  }, [isOpen]);
+
   if (!project) return null;
 
   return (
@@ -16,11 +31,11 @@ const ProjectModal = ({ project, isOpen, onClose }) => {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={onClose}
-            className="fixed inset-0 bg-slate-950/80 backdrop-blur-md z-[100] cursor-pointer"
+            className="fixed inset-0 bg-slate-950/80 backdrop-blur-md z-[200] cursor-pointer"
           />
           
           {/* Modal Container */}
-          <div className="fixed inset-0 flex items-center justify-center z-[101] p-4 md:p-8 pointer-events-none">
+          <div className="fixed inset-0 flex items-center justify-center z-[201] p-4 md:p-8 pointer-events-none">
             <motion.div
               initial={{ scale: 0.9, opacity: 0, y: 20 }}
               animate={{ scale: 1, opacity: 1, y: 0 }}
@@ -47,7 +62,7 @@ const ProjectModal = ({ project, isOpen, onClose }) => {
               </div>
 
               {/* Content Section */}
-              <div className="md:w-1/2 p-8 md:p-12 overflow-y-auto">
+              <div className="md:w-1/2 p-8 md:p-12 overflow-y-auto" data-lenis-prevent>
                 <span className="section-subtitle mb-4 block underline decoration-cyan-500/30 underline-offset-4">
                   {project.type}
                 </span>
