@@ -1,20 +1,17 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { AnimatePresence } from 'framer-motion';
 import AppRoutes from './routes/AppRoutes';
-import LoadingScreen from './components/LoadingScreen';
+import SystemConsole from './components/SystemConsole';
 
 function App() {
-  const [isLoading, setIsLoading] = useState(true);
+
 
   return (
     <div className="App">
       <AnimatePresence mode="wait">
-        {isLoading ? (
-          <LoadingScreen key="loader" onComplete={() => setIsLoading(false)} />
-        ) : (
-          <AppRoutes key="routes" />
-        )}
+        <AppRoutes key="routes" />
       </AnimatePresence>
+      <SystemConsole />
     </div>
   );
 }

@@ -1,23 +1,24 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { HiX, HiExternalLink } from 'react-icons/hi';
-import { FaGithub } from 'react-icons/fa';
-import { useEffect } from 'react';
+import { HiX } from 'react-icons/hi';
+import { useLenis } from 'lenis/react';
 
 const ProjectModal = ({ project, isOpen, onClose }) => {
+  const lenis = useLenis();
+
   useEffect(() => {
     if (isOpen) {
-      window.lenis?.stop();
+      lenis?.stop();
       document.body.style.overflow = 'hidden';
     } else {
-      window.lenis?.start();
+      lenis?.start();
       document.body.style.overflow = '';
     }
     return () => {
-      window.lenis?.start();
+      lenis?.start();
       document.body.style.overflow = '';
     };
-  }, [isOpen]);
+  }, [isOpen, lenis]);
 
   if (!project) return null;
 
@@ -62,42 +63,44 @@ const ProjectModal = ({ project, isOpen, onClose }) => {
               </div>
 
               {/* Content Section */}
-              <div className="md:w-1/2 p-8 md:p-12 overflow-y-auto" data-lenis-prevent>
-                <span className="section-subtitle mb-4 block underline decoration-cyan-500/30 underline-offset-4">
-                  {project.type}
-                </span>
-                <h2 className="text-4xl md:text-5xl font-extrabold text-white mb-6 font-display">
+              <div className="md:w-1/2 p-10 md:p-14 overflow-y-auto" data-lenis-prevent>
+                <div className="section-label">
+                  <span>Case Study</span>
+                </div>
+                <h2 className="text-4xl md:text-5xl font-serif italic text-white mb-8 tracking-tight">
                   {project.title}
                 </h2>
                 
-                <div className="space-y-6 mb-10">
-                  <p className="text-slate-400 text-lg leading-relaxed font-light">
+                <div className="space-y-8 mb-12">
+                  <p className="text-zinc-500 text-lg leading-relaxed font-sans tracking-tight">
                     {project.description}
                   </p>
                   
-                  <div className="flex flex-wrap gap-2">
-                    {project.tech.map((t) => (
-                      <span key={t} className="px-4 py-2 bg-white/5 text-[10px] font-black text-cyan-400 rounded-xl border border-white/5 uppercase tracking-[0.1em]">
-                        {t}
-                      </span>
-                    ))}
+                  <div className="space-y-4">
+                    <span className="text-white/60 text-[10px] font-bold uppercase tracking-[0.2em] block">Tech Ecosystem:</span>
+                    <div className="flex flex-wrap gap-2">
+                      {project.tech.map((t) => (
+                        <span key={t} className="px-3 py-1 bg-zinc-900 border border-white/5 text-zinc-400 text-[10px] font-bold uppercase tracking-widest rounded-sm">
+                          {t}
+                        </span>
+                      ))}
+                    </div>
                   </div>
                 </div>
 
-                <div className="flex flex-col sm:flex-row gap-4">
+                <div className="flex flex-col gap-3">
                   {project.links.map((link, i) => (
                     <a
                       key={i}
                       href={link.url}
                       target="_blank"
                       rel="noreferrer"
-                      className={`flex-1 py-4 rounded-2xl flex items-center justify-center gap-3 font-bold transition-all ${
+                      className={`py-4 rounded-sm flex items-center justify-center gap-3 text-[11px] font-bold uppercase tracking-[0.3em] transition-all ${
                         link.primary 
-                        ? 'bg-linear-to-r from-cyan-500 to-blue-600 text-slate-950 shadow-2xl' 
-                        : 'glass text-white border-white/10 hover:bg-white/10'
+                        ? 'bg-white text-black hover:bg-zinc-200' 
+                        : 'bg-zinc-900 text-white border border-white/10 hover:bg-zinc-800'
                       }`}
                     >
-                      <link.icon size={20} />
                       {link.name}
                     </a>
                   ))}

@@ -1,137 +1,107 @@
 import React, { useState, useEffect } from 'react';
-import { NavLink, useLocation } from 'react-router-dom';
-import { motion, AnimatePresence, useScroll, useSpring } from 'framer-motion';
-import { HiMenuAlt3, HiX, HiChevronRight } from 'react-icons/hi';
-import Magnetic from './Magnetic';
+import { NavLink, useNavigate, useLocation } from 'react-router-dom';
+import { motion, AnimatePresence } from 'framer-motion';
+import profileImg from '../assets/images/myphoto.jpeg';
 
 const Navbar = () => {
-  const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const navigate = useNavigate();
   const location = useLocation();
 
-  const { scrollYProgress } = useScroll();
-  const scaleX = useSpring(scrollYProgress, {
-    stiffness: 100,
-    damping: 30,
-    restDelta: 0.001
-  });
-
   useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 20);
-    };
+    const handleScroll = () => setScrolled(window.scrollY > 20);
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
   const navLinks = [
-    { name: 'Home', path: '/' },
-    { name: 'About', path: '/about' },
-    { name: 'Projects', path: '/projects' },
-    { name: 'Skills', path: '/skills' },
-    { name: 'Contact', path: '/contact' },
+    { name: 'Home', path: '/', isScroll: true, hash: '#top' },
+    { name: 'Skills', path: '/skills', isScroll: false },
+    { name: 'Projects', path: '/projects', isScroll: false },
+    { name: 'Contact', path: '/contact', isScroll: false },
   ];
 
+  const handleNavClick = (link) => {
+    setMobileMenuOpen(false);
+    if (link.isScroll && location.pathname === '/') {
+      const element = document.querySelector(link.hash);
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth' });
+      }
+    } else {
+      navigate(link.path);
+      if (link.isScroll) {
+        setTimeout(() => {
+          const element = document.querySelector(link.hash);
+          if (element) element.scrollIntoView({ behavior: 'smooth' });
+        }, 100);
+      }
+    }
+  };
+
   return (
-    <>
-      {/* Scroll Progress Bar */}
-      <motion.div
-        className="fixed top-0 left-0 right-0 h-[2px] bg-cyan-500 z-[110] origin-left"
-        style={{ scaleX }}
-      />
+    <nav className={`fixed top-0 left-1/2 -translate-x-1/2 z-[100] transition-all duration-500 w-full max-w-[850px] ${
+      scrolled ? 'bg-black/95 backdrop-blur-md border-b border-white/5 py-3' : 'bg-transparent py-8'
+    }`}>
+      <div className="px-6 md:px-8 flex justify-between items-center relative">
+        {/* Logo/Icon */}
+        <NavLink to="/" className="group shrink-0 relative z-[110]">
+           <div className="w-9 h-9 md:w-10 md:h-10 rounded-full bg-zinc-900 border border-white/10 flex items-center justify-center overflow-hidden transition-all duration-500">
+             <img src={profileImg} alt="Forman" className="w-full h-full object-cover group-hover:scale-110 transition-transform" />
+           </div>
+        </NavLink>
 
-      <nav 
-        className={`fixed top-0 left-0 right-0 z-[100] transition-all duration-500 ${
-          scrolled 
-          ? 'py-4 bg-slate-950/80 backdrop-blur-xl border-b border-white/5 shadow-[0_0_30px_rgba(0,0,0,0.5)]' 
-          : 'py-8 bg-transparent'
-        }`}
-      >
-        <div className="container mx-auto px-6 flex justify-between items-center">
-          {/* Logo */}
-          <Magnetic strength={0.2}>
-            <NavLink 
-              to="/" 
-              className="text-2xl font-black tracking-tighter text-white font-display group"
+        {/* Desktop Links */}
+        <div className="hidden md:flex gap-2 items-center">
+          {navLinks.map((link) => (
+            <button
+              key={link.name}
+              onClick={() => handleNavClick(link)}
+              className={`px-4 py-1.5 rounded-sm border border-white/5 bg-white/[0.02] text-[10px] font-bold uppercase tracking-[0.2em] transition-all
+                ${location.pathname === link.path ? 'text-white border-white/20 bg-white/5' : 'text-zinc-500 hover:text-white hover:border-white/20 hover:bg-white/5'}
+              `}
             >
-              FORMAN<span className="text-cyan-500 group-hover:animate-pulse transition-all">.</span>
-            </NavLink>
-          </Magnetic>
+              {link.name}
+            </button>
+          ))}
+        </div>
 
-          {/* Desktop Nav */}
-          <div className="hidden md:flex items-center gap-10">
-            {navLinks.map((link) => (
-              <Magnetic key={link.name} strength={0.15}>
-                <NavLink
-                  to={link.path}
-                  className={({ isActive }) => `
-                    relative text-[10px] font-black uppercase tracking-[0.2em] transition-colors
-                    ${isActive ? 'text-white' : 'text-slate-400 hover:text-white'}
+        {/* Mobile Menu Toggle */}
+        <button 
+          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+          className="md:hidden relative z-[110] flex flex-col gap-1.5 items-end justify-center w-8 h-8"
+        >
+          <span className={`w-6 h-[1.5px] bg-white transition-all duration-300 ${mobileMenuOpen ? 'rotate-45 translate-y-2' : ''}`}></span>
+          <span className={`w-4 h-[1.5px] bg-white transition-all duration-300 ${mobileMenuOpen ? 'opacity-0' : ''}`}></span>
+          <span className={`w-6 h-[1.5px] bg-white transition-all duration-300 ${mobileMenuOpen ? '-rotate-45 -translate-y-2' : ''}`}></span>
+        </button>
+
+        {/* Mobile Menu Overlay */}
+        <AnimatePresence>
+          {mobileMenuOpen && (
+            <motion.div 
+              initial={{ opacity: 0, y: -20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              className="absolute top-0 left-0 right-0 bg-zinc-950/95 backdrop-blur-xl border-b border-white/10 pt-24 pb-12 px-8 flex flex-col gap-6 md:hidden z-[100]"
+            >
+              {navLinks.map((link) => (
+                <button
+                  key={link.name}
+                  onClick={() => handleNavClick(link)}
+                  className={`text-2xl font-serif italic text-left transition-all
+                    ${location.pathname === link.path ? 'text-white' : 'text-zinc-600'}
                   `}
                 >
                   {link.name}
-                  {location.pathname === link.path && (
-                    <motion.div
-                      layoutId="nav-active"
-                      className="absolute -bottom-2 left-0 right-0 h-[2px] bg-cyan-500 rounded-full shadow-[0_0_10px_rgba(6,182,212,0.5)]"
-                    />
-                  )}
-                </NavLink>
-              </Magnetic>
-            ))}
-            
-            <Magnetic strength={0.3}>
-              <NavLink
-                to="/contact"
-                className="px-6 py-2.5 bg-white text-slate-950 text-[10px] font-black uppercase tracking-[0.2em] rounded-full hover:bg-cyan-500 transition-all active:scale-95 shadow-xl shadow-cyan-500/10"
-              >
-                Hire Me
-              </NavLink>
-            </Magnetic>
-          </div>
-
-          {/* Mobile Toggle */}
-          <button 
-            className="md:hidden text-white p-2 glass rounded-xl border-white/5"
-            onClick={() => setIsOpen(!isOpen)}
-          >
-            {isOpen ? <HiX size={24} /> : <HiMenuAlt3 size={24} />}
-          </button>
-        </div>
-
-        {/* Mobile Menu */}
-        <AnimatePresence>
-          {isOpen && (
-            <motion.div
-              initial={{ opacity: 0, x: 100 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: 100 }}
-              className="fixed inset-0 top-0 bg-slate-950/95 backdrop-blur-3xl z-[-1] flex flex-col pt-32 px-6"
-            >
-              <div className="space-y-6">
-                {navLinks.map((link, i) => (
-                  <motion.div
-                    key={link.name}
-                    initial={{ opacity: 0, x: 20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: i * 0.1 }}
-                  >
-                    <NavLink
-                      to={link.path}
-                      onClick={() => setIsOpen(false)}
-                      className="text-4xl font-black text-white flex items-center justify-between group py-4 border-b border-white/5"
-                    >
-                      <span className="group-hover:text-cyan-500 transition-colors uppercase font-display">{link.name}</span>
-                      <HiChevronRight className="opacity-0 group-hover:opacity-100 group-hover:translate-x-2 transition-all text-cyan-500" />
-                    </NavLink>
-                  </motion.div>
-                ))}
-              </div>
+                </button>
+              ))}
             </motion.div>
           )}
         </AnimatePresence>
-      </nav>
-    </>
+      </div>
+    </nav>
   );
 };
 

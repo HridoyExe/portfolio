@@ -11,7 +11,7 @@ const stats = [
     icon: HiCode,
     color: 'from-cyan-500 to-blue-600',
   },
-  {
+  { 
     label: 'Code Commits',
     value: 1200,
     suffix: '+',

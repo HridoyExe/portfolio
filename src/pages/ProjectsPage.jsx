@@ -44,102 +44,62 @@ const projects = [
   },
 ];
 
-const ProjectCard = ({ project, index, onOpen }) => {
-  const x = useMotionValue(0);
-  const y = useMotionValue(0);
-
-  const mouseXSpring = useSpring(x);
-  const mouseYSpring = useSpring(y);
-
-  const rotateX = useTransform(mouseYSpring, [-0.5, 0.5], ["3deg", "-3deg"]);
-  const rotateY = useTransform(mouseXSpring, [-0.5, 0.5], ["-3deg", "3deg"]);
-
-  const handleMouseMove = (e) => {
-    const rect = e.currentTarget.getBoundingClientRect();
-    const width = rect.width;
-    const height = rect.height;
-    const mouseX = e.clientX - rect.left;
-    const mouseY = e.clientY - rect.top;
-    const xPct = mouseX / width - 0.5;
-    const yPct = mouseY / height - 0.5;
-    x.set(xPct);
-    y.set(yPct);
-  };
-
-  const handleMouseLeave = () => {
-    x.set(0);
-    y.set(0);
-  };
+const ProjectCard = ({ project, index }) => {
+  const liveLink = project.links.find(l => l.primary || l.name.toLowerCase().includes('live'))?.url;
+  const githubLink = project.links.find(l => l.name.toLowerCase().includes('github') || l.name.toLowerCase().includes('architecture') || l.name.toLowerCase().includes('core') || l.name.toLowerCase().includes('source'))?.url;
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 50 }}
-      whileInView={{ opacity: 1, y: 0 }}
+      initial={{ opacity: 0, scale: 0.98 }}
+      whileInView={{ opacity: 1, scale: 1 }}
       viewport={{ once: true }}
-      transition={{ delay: index * 0.1, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-      onMouseMove={handleMouseMove}
-      onMouseLeave={handleMouseLeave}
-      style={{
-        rotateY,
-        rotateX,
-        transformStyle: "preserve-3d",
-        willChange: "transform",
-      }}
-      onClick={onOpen}
-      className="premium-card rounded-[3.5rem] overflow-hidden flex flex-col group hover:shadow-[0_0_50px_rgba(6,182,212,0.15)] transition-all duration-700 cursor-pointer relative perspective-1000"
+      transition={{ delay: index * 0.1, duration: 0.8 }}
+      className="dashed-card group flex flex-col h-full bg-zinc-950/20"
     >
-      {/* Shine Effect */}
-      <motion.div 
-        style={{
-          background: "radial-gradient(circle at center, rgba(6, 182, 212, 0.15) 0%, transparent 80%)",
-          left: useTransform(mouseXSpring, [-0.5, 0.5], ["-20%", "20%"]),
-          top: useTransform(mouseYSpring, [-0.5, 0.5], ["-20%", "20%"]),
-        }}
-        className="absolute inset-0 z-10 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-500"
-      />
-
       {/* Visual Section */}
-      <div 
-        style={{ transform: "translateZ(50px)" }}
-        className="h-80 overflow-hidden relative"
-      >
-        <motion.img
-          whileHover={{ scale: 1.05 }}
-          transition={{ duration: 1.5, ease: "easeOut" }}
+      <div className="relative overflow-hidden rounded-sm bg-zinc-900 aspect-[16/10] mb-8">
+        <img
           src={project.image}
           alt={project.title}
-          className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-[2s]"
+          className="w-full h-full object-cover grayscale brightness-75 group-hover:grayscale-0 group-hover:brightness-100 transition-all duration-1000"
         />
-        <div className="absolute inset-0 bg-linear-to-t from-slate-950 via-slate-950/20 to-transparent opacity-80 group-hover:opacity-60 transition-opacity duration-700"></div>
+        <div className="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-all duration-500"></div>
         
         {/* Type Badge */}
-        <div className="absolute top-8 left-8">
-          <div className="glass px-5 py-2.5 rounded-full text-[9px] font-black uppercase tracking-[0.3em] text-cyan-400 border-cyan-500/20 backdrop-blur-2xl">
+        <div className="absolute top-4 left-4">
+          <div className="px-3 py-1 bg-black/80 backdrop-blur-md rounded-sm border border-white/10 text-[9px] font-bold uppercase tracking-[0.2em] text-white">
             {project.type}
           </div>
         </div>
 
-        {/* View Details Label */}
-        <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-           <div className="glass px-8 py-3 rounded-full text-white font-bold text-xs uppercase tracking-widest border-white/10">
-             Explore Case Study
-           </div>
+        {/* Links Overlay */}
+        <div className="absolute top-4 right-4 flex gap-2">
+          {liveLink && (
+            <a href={liveLink} target="_blank" rel="noreferrer" className="px-3 py-1 bg-white text-black text-[9px] font-bold uppercase tracking-widest rounded-sm hover:bg-zinc-200 transition-colors">
+              Live
+            </a>
+          )}
+          {githubLink && (
+            <a href={githubLink} target="_blank" rel="noreferrer" className="px-3 py-1 bg-zinc-900 border border-white/10 text-white text-[9px] font-bold uppercase tracking-widest rounded-sm hover:bg-white hover:text-black transition-all">
+              GitHub
+            </a>
+          )}
         </div>
       </div>
 
       {/* Narrative Section */}
-      <div className="p-10 md:p-12 flex flex-col flex-grow relative bg-[#0a0c10]/50 border-t border-white/5">
-        <h3 className="text-4xl font-extrabold text-white mb-4 font-display group-hover:text-gradient transition-all duration-500">
+      <div className="flex flex-col flex-grow">
+        <h3 className="text-2xl md:text-3xl font-serif italic text-white mb-4">
           {project.title}
         </h3>
-        <p className="text-slate-400 mb-10 text-lg leading-relaxed font-light line-clamp-3 group-hover:text-slate-300 transition-colors">
+        <p className="text-zinc-500 mb-8 text-[13px] md:text-[14px] leading-relaxed font-sans line-clamp-3">
           {project.description}
         </p>
 
         {/* Tech Ecosystem */}
-        <div className="flex flex-wrap gap-2.5 mt-auto">
+        <div className="flex flex-wrap gap-1.5 mt-auto">
           {project.tech.map((t) => (
-            <span key={t} className="px-4 py-2 bg-white/[0.03] text-[10px] font-black text-slate-500 rounded-xl border border-white/5 uppercase tracking-[0.1em] hover:text-cyan-400 hover:border-cyan-500/20 transition-all duration-300">
+            <span key={t} className="px-2 py-0.5 bg-zinc-900 border border-white/5 text-zinc-500 text-[9px] font-bold uppercase tracking-widest rounded-sm">
               {t}
             </span>
           ))}
@@ -153,37 +113,31 @@ const ProjectsPage = () => {
   const [selectedProject, setSelectedProject] = useState(null);
 
   return (
-    <div className="py-20 px-6 min-h-screen relative overflow-hidden">
-      <div className="container mx-auto max-w-7xl relative z-10">
-        <SectionReveal delay={0.2}>
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true }}
-            className="text-center mb-24"
-          >
-            <span className="section-subtitle">Impact Portfolio</span>
-            <h2 className="section-title">
-              Digital <span className="text-gradient">Architectures</span>
-            </h2>
-            <p className="text-slate-400 max-w-3xl mx-auto text-lg md:text-xl font-light leading-relaxed">
-              A selection of my most complex full-stack applications, engineered for scalability, efficiency, and exceptional user experience.
-            </p>
-          </motion.div>
-        </SectionReveal>
-
-        <SectionReveal delay={0.4}>
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16">
-            {projects.map((project, i) => (
-              <ProjectCard 
-                key={i} 
-                project={project} 
-                index={i} 
-                onOpen={() => setSelectedProject(project)}
-              />
-            ))}
+    <div className="pt-40 pb-32 px-8 min-h-screen bg-black">
+      <div className="container mx-auto max-w-6xl">
+        <div className="flex flex-col space-y-8 md:space-y-12 mb-16 md:mb-24">
+          <div className="section-label">
+             <span>Impact Portfolio</span>
           </div>
-        </SectionReveal>
+          <h2 className="text-white text-4xl md:text-8xl font-serif italic tracking-tighter leading-tight">
+            Digital <br />
+            Architectures.
+          </h2>
+          <p className="text-zinc-500 max-w-2xl text-base md:text-lg font-sans leading-relaxed tracking-tight">
+            A curation of my professional engineering work, focused on building high-concurrency backend systems and delightful user experiences.
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          {projects.map((project, i) => (
+            <ProjectCard 
+              key={i} 
+              project={project} 
+              index={i} 
+              onOpen={() => setSelectedProject(project)}
+            />
+          ))}
+        </div>
       </div>
 
       <ProjectModal 

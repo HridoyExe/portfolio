@@ -38,26 +38,19 @@ const CustomCursor = () => {
 
     return (
         <motion.div
-            className="fixed top-0 left-0 w-8 h-8 rounded-full border border-cyan-500/50 pointer-events-none z-[999] hidden lg:block backdrop-blur-[2px]"
+            className="fixed top-0 left-0 w-6 h-6 rounded-full border border-white/20 pointer-events-none z-[999] hidden lg:block backdrop-blur-[1px]"
             style={{
                 translateX: cursorXSpring,
                 translateY: cursorYSpring,
                 x: "-50%",
                 y: "-50%",
-                scale: isPointer ? 1.5 : 1,
-                backgroundColor: isPointer ? "rgba(6, 182, 212, 0.1)" : "transparent",
+                scale: isPointer ? 1.4 : 1,
+                borderColor: isPointer ? "rgba(255, 255, 255, 0.4)" : "rgba(255, 255, 255, 0.2)",
             }}
         >
             <div className="absolute inset-0 flex items-center justify-center">
-                <div className="w-1 h-1 bg-cyan-400 rounded-full" />
+                <div className="w-1 h-1 bg-white rounded-full opacity-40" />
             </div>
-            {isPointer && (
-                <motion.div 
-                    initial={{ scale: 0, opacity: 0 }}
-                    animate={{ scale: 1, opacity: 1 }}
-                    className="absolute inset-[-4px] border border-cyan-500/20 rounded-full"
-                />
-            )}
         </motion.div>
     );
 };

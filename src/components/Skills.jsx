@@ -1,229 +1,109 @@
-import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import React from 'react';
+import { motion } from 'framer-motion';
 import {
-  SiDjango, SiPython, SiJavascript, SiReact, SiTailwindcss,
-  SiPostgresql, SiGit, SiPostman, SiCplusplus, SiC,
-  SiMysql, SiSupabase, SiBootstrap, SiHtml5, SiCss, SiCodeforces
+  SiDjango, SiPython, SiPostgresql, SiReact, SiSupabase, SiGit,
+  SiCplusplus, SiC, SiLeetcode, SiCodeforces, SiMysql, SiTailwindcss,
+  SiJavascript, SiHtml5
 } from 'react-icons/si';
-import { HiCode, HiChip, HiLightningBolt, HiExternalLink } from 'react-icons/hi';
-import SectionReveal from './SectionReveal';
+import { FaCss3 } from 'react-icons/fa';
 
-const skillCategories = [
-  {
-    id: 'backend',
-    title: 'Systems & Logic',
-    icon: HiChip,
-    skills: [
-      { name: 'Django', icon: SiDjango, color: '#092E20', level: 85, tagline: 'Enterprise Backend' },
-      { name: 'Python', icon: SiPython, color: '#3776AB', level: 90, tagline: 'Powerful Computation' },
-      { name: 'MySQL', icon: SiMysql, color: '#4479A1', level: 80, tagline: 'Data Persistence' },
-      { name: 'PostgreSQL', icon: SiPostgresql, color: '#336791', level: 75, tagline: 'Advanced Relational' },
-      { name: 'Supabase', icon: SiSupabase, color: '#3ECF8E', level: 70, tagline: 'Serverless Design' },
-    ]
-  },
-  {
-    id: 'frontend',
-    title: 'Interface Design',
-    icon: HiCode,
-    skills: [
-      { name: 'React', icon: SiReact, color: '#61DAFB', level: 70, tagline: 'Infinite Interfaces' },
-      { name: 'JavaScript', icon: SiJavascript, color: '#F7DF1E', level: 65, tagline: 'Logic & Event Flow' },
-      { name: 'Tailwind CSS', icon: SiTailwindcss, color: '#06B6D4', level: 95, tagline: 'Modern Aesthetics' },
-      { name: 'HTML5', icon: SiHtml5, color: '#E34F26', level: 90, tagline: 'Semantic Web' },
-      { name: 'CSS3', icon: SiCss, color: '#1572B6', level: 85, tagline: 'Visual Excellence' },
-    ]
-  },
-  {
-    id: 'core',
-    title: 'Problem Solved',
-    icon: HiLightningBolt,
-    skills: [
-      { name: 'C++', icon: SiCplusplus, color: '#00599C', level: 75, tagline: 'High-Level Logic' },
-      { name: 'C', icon: SiC, color: '#A8B9CC', level: 80, tagline: 'Low-Level Mastery' },
-      { name: 'DSA', icon: HiLightningBolt, color: '#FFD700', level: 70, tagline: 'Complex Algorithms' },
-      { name: 'Git', icon: SiGit, color: '#F05032', level: 80, tagline: 'Collaborative Flow' },
-    ]
-  }
+const coreSkills = [
+  { name: 'Django', icon: SiDjango, color: 'text-[#092e20]', level: 'Scale' },
+  { name: 'DRF', icon: SiDjango, color: 'text-[#092e20]', level: 'Scale' },
+  { name: 'Python', icon: SiPython, color: 'text-[#3776ab]', level: 'Core' },
+  { name: 'PostgreSQL', icon: SiPostgresql, color: 'text-[#336791]', level: 'Data' },
+  { name: 'MySQL', icon: SiMysql, color: 'text-[#4479a1]', level: 'Relational' },
+  { name: 'React', icon: SiReact, color: 'text-[#61dafb]', level: 'UI' },
+  { name: 'Tailwind', icon: SiTailwindcss, color: 'text-[#06b6d4]', level: 'Design' },
+  { name: 'JavaScript', icon: SiJavascript, color: 'text-[#f7df1e]', level: 'Logic' },
+  { name: 'Supabase', icon: SiSupabase, color: 'text-[#3ecf8e]', level: 'Auth' },
 ];
 
-const SkillCard = ({ skill, index }) => {
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 30 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      transition={{ delay: index * 0.05 }}
-      whileHover={{
-        y: -10,
-        rotateX: 5,
-        rotateY: -5,
-        transition: { duration: 0.3 }
-      }}
-      className="premium-card p-8 group relative overflow-hidden rounded-[2.5rem] perspective-1000"
-    >
-      {/* Dynamic Glow */}
-      <div
-        className="absolute inset-0 opacity-0 group-hover:opacity-10 transition-opacity duration-700 blur-[80px]"
-        style={{ background: `radial-gradient(circle at center, ${skill.color}, transparent)` }}
-      ></div>
+const problemSolving = [
+  { name: 'C++', icon: SiCplusplus, color: 'text-[#00599c]', level: 'Core' },
+  { name: 'C Language', icon: SiC, color: 'text-[#a8b9cc]', level: 'Base' },
+  { name: 'DSA', icon: SiCplusplus, color: 'text-emerald-500', level: 'Algorithmic' },
+];
 
-      <div className="relative z-10">
-        <div className="flex items-start justify-between mb-8">
-          <div
-            className="w-16 h-16 rounded-2xl flex items-center justify-center transition-all duration-500 group-hover:scale-110 group-hover:rotate-12 border border-white/5 shadow-xl"
-            style={{ backgroundColor: `${skill.color}10`, borderColor: `${skill.color}20` }}
-          >
-            {skill.icon && <skill.icon size={32} style={{ color: skill.color }} />}
-          </div>
-          <span className="text-4xl font-extrabold text-white/[0.03] group-hover:text-cyan-500/10 transition-colors uppercase italic font-display">
-            {skill.name.substring(0, 2)}
-          </span>
-        </div>
+const competitiveProfiles = [
+  { name: 'LeetCode', icon: SiLeetcode, color: 'text-[#ffa116]', url: 'https://leetcode.com/u/7rnVUFUcCZ/' },
+  { name: 'Codeforces', icon: SiCodeforces, color: 'text-[#1f8acb]', url: 'https://codeforces.com/profile/MdFormanAli' },
+];
 
-        <h3 className="text-2xl font-extrabold text-white mb-1 font-display">
-          {skill.name}
-        </h3>
-        <p className="text-slate-500 text-[9px] uppercase tracking-[0.2em] mb-10 font-black font-mono">
-          {skill.tagline}
-        </p>
+const webFoundations = [
+  { name: 'HTML5', icon: SiHtml5, color: 'text-[#e34f26]', level: 'Structure' },
+  { name: 'CSS3', icon: FaCss3, color: 'text-[#1572b6]', level: 'Style' },
+];
 
-        {/* Progress Design */}
-        <div className="space-y-4">
-          <div className="flex justify-between items-center text-[9px] font-black uppercase tracking-[0.2em] text-slate-500">
-            <span>Expertise Level</span>
-            <span className="text-cyan-400">{skill.level}%</span>
-          </div>
-          <div className="h-1.5 bg-slate-900 rounded-full overflow-hidden p-[1px] border border-white/5">
-            <motion.div
-              initial={{ width: 0 }}
-              whileInView={{ width: `${skill.level}%` }}
-              viewport={{ once: true }}
-              transition={{ duration: 1.5, ease: "circOut", delay: index * 0.05 }}
-              className="h-full rounded-full bg-linear-to-r from-cyan-600 to-cyan-400 shadow-[0_0_15px_rgba(6,182,212,0.3)]"
-            />
-          </div>
-        </div>
-      </div>
-    </motion.div>
-  );
-};
+const SkillItem = ({ skill, i }) => (
+  <motion.div 
+    initial={{ opacity: 0, y: 10 }}
+    whileInView={{ opacity: 1, y: 0 }}
+    viewport={{ once: true }}
+    transition={{ delay: i * 0.05 }}
+    className="flex items-center gap-4 py-3 border-b border-white/5 last:border-0"
+  >
+    <div className="text-zinc-500 group-hover:text-white transition-all">
+      {skill.icon && <skill.icon size={20} />}
+    </div>
+    <div className="flex-grow">
+      <h4 className="text-white text-sm font-bold tracking-tight">{skill.name}</h4>
+      <span className="text-[10px] uppercase tracking-widest text-zinc-600 font-bold">{skill.level}</span>
+    </div>
+  </motion.div>
+);
 
 const Skills = () => {
-  const [activeTab, setActiveTab] = useState('backend');
-  const activeCategory = skillCategories.find(c => c.id === activeTab);
-
   return (
-    <section id="skills" className="py-16 relative overflow-hidden">
-      {/* Background Decor */}
-      <div className="absolute top-0 right-0 -translate-y-1/2 translate-x-1/2 w-[600px] h-[600px] bg-cyan-500/5 blur-[120px] rounded-full pointer-events-none"></div>
-
-      <div className="container mx-auto px-6 relative z-10">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="text-center mb-20"
-        >
-          <span className="section-subtitle">The Technical Stack</span>
-          <h2 className="section-title">
-            Engineered for <span className="text-gradient">Performance</span>
-          </h2>
-          <p className="text-slate-400 max-w-2xl mx-auto text-lg md:text-xl font-light leading-relaxed">
-            I architect high-performance <span className="text-white font-medium">Server-Side Systems</span> and robust APIs, complemented by modern frontend technologies.
-          </p>
-        </motion.div>
-
-        {/* Tab Navigation */}
-        <SectionReveal delay={0.2}>
-          <div className="flex flex-wrap justify-center gap-4 mb-16">
-            <div className="glass p-1.5 rounded-[2.5rem] flex flex-wrap gap-2">
-              {skillCategories.map((cat) => (
-                <button
-                  key={cat.id}
-                  onClick={() => setActiveTab(cat.id)}
-                  className={`px-8 py-3.5 rounded-[2rem] font-extrabold transition-all duration-500 flex items-center gap-3 relative overflow-hidden ${activeTab === cat.id
-                    ? 'text-slate-950 shadow-2xl'
-                    : 'text-slate-400 hover:text-white'
-                    }`}
-                >
-                  {activeTab === cat.id && (
-                    <motion.div
-                      layoutId="active-tab-bg"
-                      className="absolute inset-0 bg-linear-to-r from-cyan-400 to-blue-500"
-                      transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
-                    />
-                  )}
-                  <cat.icon size={20} className="relative z-10" />
-                  <span className="relative z-10 text-xs tracking-widest uppercase">{cat.title}</span>
-                </button>
-              ))}
-            </div>
-          </div>
-        </SectionReveal>
-
-        <SectionReveal delay={0.4}>
-          <div className="max-w-7xl mx-auto">
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={activeTab}
-                initial={{ opacity: 0, scale: 0.98 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.98 }}
-                transition={{ duration: 0.4, ease: "backOut" }}
-                className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6"
-              >
-                {activeCategory.skills.map((skill, index) => (
-                  <SkillCard key={skill.name} skill={skill} index={index} />
-                ))}
-              </motion.div>
-            </AnimatePresence>
-          </div>
-        </SectionReveal>
-
-        {/* Impact Links */}
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="mt-32 max-w-5xl mx-auto"
-        >
-          <div className="premium-card p-8 md:p-16 rounded-[2.5rem] md:rounded-[4rem] flex flex-col lg:flex-row items-center gap-12 overflow-hidden relative group">
-            <div className="absolute top-0 right-0 w-64 h-64 bg-cyan-500/10 blur-[80px] rounded-full -translate-y-1/2 translate-x-1/2"></div>
-
-            <div className="w-24 h-24 rounded-[2rem] bg-linear-to-tr from-cyan-500 to-blue-600 flex items-center justify-center shadow-2xl shadow-cyan-500/30 shrink-0 group-hover:rotate-12 transition-transform duration-700">
-              <HiCode size={45} className="text-slate-900" />
+    <section id="skills" className="py-32 relative bg-black">
+      <div className="container mx-auto px-8 max-w-6xl">
+        <div className="space-y-24">
+          
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-20">
+            {/* Core & Foundations */}
+            <div className="space-y-12">
+              <div className="section-label">
+                <span>Core Systems & Web</span>
+              </div>
+              <div className="grid grid-cols-1 gap-1">
+                {[...coreSkills, ...webFoundations].map((skill, i) => <SkillItem key={i} skill={skill} i={i} />)}
+              </div>
             </div>
 
-            <div className="flex-grow z-10 text-center lg:text-left">
-              <h3 className="text-3xl font-extrabold text-white mb-4 font-display">Algorithmic Excellence</h3>
-              <p className="text-slate-400 leading-relaxed mb-8 text-lg font-light">
-                Continuous improvement through competitive programming and complex problem solving on global platforms.
-              </p>
-
-              <div className="flex flex-wrap justify-center lg:justify-start gap-4">
-                <a
-                  href="https://leetcode.com/u/7rnVUFUcCZ/"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="px-8 py-3.5 bg-slate-900 text-white rounded-2xl font-extrabold hover:bg-cyan-500 hover:text-slate-950 transition-all flex items-center gap-2 border border-white/5 active:scale-95 text-[10px] tracking-widest uppercase shadow-xl"
-                >
-                  LeetCode Profile <HiExternalLink size={14} />
-                </a>
-                <a
-                  href="https://codeforces.com/profile/MdFormanAli"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="px-8 py-3.5 bg-slate-900 text-white rounded-2xl font-extrabold hover:bg-white hover:text-slate-950 transition-all flex items-center gap-2 border border-white/5 active:scale-95 text-[10px] tracking-widest uppercase shadow-xl"
-                >
-                  Codeforces Ranking <HiExternalLink size={14} />
-                </a>
+            {/* Problem Solving & Mastery */}
+            <div className="space-y-12">
+              <div className="section-label">
+                <span>Problem Solving & Competitive</span>
+              </div>
+              <div className="space-y-12">
+                <div className="grid grid-cols-1 gap-1">
+                  {problemSolving.map((skill, i) => <SkillItem key={i} skill={skill} i={i} />)}
+                </div>
+                
+                <div className="space-y-6">
+                  <span className="text-zinc-600 text-[10px] uppercase tracking-[0.3em] font-black">Algorithmic Profiles:</span>
+                  <div className="flex gap-4">
+                    {competitiveProfiles.map((p, i) => (
+                      <a 
+                        href={p.url} 
+                        target="_blank" 
+                        rel="noreferrer" 
+                        key={i}
+                        className="reference-pill"
+                      >
+                        {p.name}
+                      </a>
+                    ))}
+                  </div>
+                </div>
               </div>
             </div>
           </div>
-        </motion.div>
+          
+        </div>
       </div>
     </section>
   );
 };
 
 export default Skills;
-
