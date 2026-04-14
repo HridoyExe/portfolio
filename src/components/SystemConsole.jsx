@@ -28,7 +28,7 @@ const SystemConsole = () => {
   };
 
   return (
-    <div className="fixed bottom-6 right-6 z-[100] font-mono text-[10px] w-72">
+    <div className="fixed bottom-4 right-4 md:bottom-6 md:right-6 z-[100] font-mono text-[10px] w-64 md:w-72">
       <AnimatePresence>
         {isOpen && (
           <motion.div
@@ -62,11 +62,11 @@ const SystemConsole = () => {
 
       <button 
         onClick={() => setIsOpen(!isOpen)}
-        className="ml-auto flex items-center gap-3 px-4 py-2 rounded-full bg-emerald-500/10 hover:bg-emerald-500/20 border border-emerald-500/20 text-emerald-400 backdrop-blur-md transition-all group"
+        className="ml-auto flex items-center gap-2 px-3 py-1.5 md:px-4 md:py-2 rounded-full bg-emerald-500/10 hover:bg-emerald-500/20 border border-emerald-500/20 text-emerald-400 backdrop-blur-md transition-all group"
       >
         <FaTerminal className="group-hover:rotate-12 transition-transform" />
-        <span className="uppercase tracking-[0.2em] font-bold">Console</span>
-        {isOpen ? <FaChevronDown size={10} /> : <FaChevronUp size={10} />}
+        <span className="uppercase tracking-[0.2em] font-bold text-[9px] md:text-[10px]">Console</span>
+        {isOpen ? <FaChevronDown size={8} /> : <FaChevronUp size={8} />}
       </button>
     </div>
   );

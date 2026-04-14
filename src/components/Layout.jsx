@@ -25,7 +25,7 @@ const Layout = ({ children }) => {
       <div className="min-h-screen bg-[#000000] flex justify-center selection:bg-white/20">
         
         {/* The A4 "Page" Container */}
-        <div className="w-full max-w-[850px] min-h-screen bg-black relative border-x border-dashed border-white/20 shadow-[0_0_100px_rgba(0,0,0,0.5)] overflow-hidden">
+        <div className="w-[92%] md:w-full max-w-[850px] min-h-screen bg-black relative border-x border-dashed border-white/20 shadow-[0_0_100px_rgba(0,0,0,0.5)] overflow-hidden">
           
           {/* Noise Overlay */}
           <div className="noise-bg absolute inset-0"></div>
