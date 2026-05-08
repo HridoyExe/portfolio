@@ -37,6 +37,7 @@ const ProjectCard = ({ project, i }) => {
       initial={{ opacity: 0, scale: 0.98 }}
       whileInView={{ opacity: 1, scale: 1 }}
       viewport={{ once: true }}
+      transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
       className="dashed-card mb-8 group"
     >
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
@@ -45,7 +46,7 @@ const ProjectCard = ({ project, i }) => {
            <img 
              src={project.image} 
              alt={project.title} 
-             className="w-full h-full object-cover grayscale brightness-75 group-hover:grayscale-0 group-hover:brightness-100 transition-all duration-1000"
+             className="w-full h-full object-cover grayscale brightness-75 group-hover:grayscale-0 group-hover:brightness-100 group-hover:scale-105 transition-all duration-1000"
            />
            <div className="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-all duration-500"></div>
         </div>
@@ -109,10 +110,15 @@ const Projects = () => {
 
           {/* View More */}
           <div className="pt-12 flex justify-end">
-             <a href="/projects" className="group flex items-center gap-3 text-zinc-500 hover:text-white transition-all">
+             <motion.a 
+               whileHover={{ x: 5 }}
+               transition={{ ease: [0.16, 1, 0.3, 1], duration: 0.4 }}
+               href="/projects" 
+               className="group flex items-center gap-3 text-zinc-500 hover:text-white transition-colors"
+             >
                 <span className="text-[11px] font-bold uppercase tracking-[0.3em] underline underline-offset-8 decoration-white/10 group-hover:decoration-white/40">View all projects</span>
                 <span className="text-xl group-hover:translate-x-1 transition-transform">↗</span>
-             </a>
+             </motion.a>
           </div>
         </div>
       </div>

@@ -1,5 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import SectionReveal from './SectionReveal';
 import {
   SiDjango, SiPython, SiPostgresql, SiReact, SiSupabase, SiGit,
   SiCplusplus, SiC, SiLeetcode, SiCodeforces, SiMysql, SiTailwindcss,
@@ -37,10 +38,11 @@ const webFoundations = [
 
 const SkillItem = ({ skill, i }) => (
   <motion.div 
-    initial={{ opacity: 0, y: 10 }}
-    whileInView={{ opacity: 1, y: 0 }}
-    viewport={{ once: true }}
-    transition={{ delay: i * 0.05 }}
+    initial={{ opacity: 0, y: 20, filter: "blur(5px)" }}
+    whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+    whileHover={{ x: 5 }}
+    viewport={{ once: true, margin: "-50px" }}
+    transition={{ duration: 0.8, delay: i * 0.05, ease: [0.16, 1, 0.3, 1] }}
     className="flex items-center gap-4 py-3 border-b border-white/5 last:border-0"
   >
     <div className="text-zinc-500 group-hover:text-white transition-all">
@@ -62,9 +64,11 @@ const Skills = () => {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-20">
             {/* Core & Foundations */}
             <div className="space-y-12">
-              <div className="section-label">
-                <span>Core Systems & Web</span>
-              </div>
+              <SectionReveal yOffset={20}>
+                <div className="section-label">
+                  <span>Core Systems & Web</span>
+                </div>
+              </SectionReveal>
               <div className="grid grid-cols-1 gap-1">
                 {[...coreSkills, ...webFoundations].map((skill, i) => <SkillItem key={i} skill={skill} i={i} />)}
               </div>
@@ -72,9 +76,11 @@ const Skills = () => {
 
             {/* Problem Solving & Mastery */}
             <div className="space-y-12">
-              <div className="section-label">
-                <span>Problem Solving & Competitive</span>
-              </div>
+              <SectionReveal delay={0.2} yOffset={20}>
+                <div className="section-label">
+                  <span>Problem Solving & Competitive</span>
+                </div>
+              </SectionReveal>
               <div className="space-y-12">
                 <div className="grid grid-cols-1 gap-1">
                   {problemSolving.map((skill, i) => <SkillItem key={i} skill={skill} i={i} />)}
@@ -84,7 +90,10 @@ const Skills = () => {
                   <span className="text-zinc-600 text-[10px] uppercase tracking-[0.3em] font-black">Algorithmic Profiles:</span>
                   <div className="flex gap-4">
                     {competitiveProfiles.map((p, i) => (
-                      <a 
+                      <motion.a 
+                        whileHover={{ scale: 1.05 }}
+                        whileTap={{ scale: 0.95 }}
+                        transition={{ ease: [0.16, 1, 0.3, 1], duration: 0.4 }}
                         href={p.url} 
                         target="_blank" 
                         rel="noreferrer" 
@@ -92,7 +101,7 @@ const Skills = () => {
                         className="reference-pill"
                       >
                         {p.name}
-                      </a>
+                      </motion.a>
                     ))}
                   </div>
                 </div>
